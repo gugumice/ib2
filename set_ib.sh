@@ -20,7 +20,6 @@ if [[ -z "$rpi_ip" ]]; then
     printf "Error: Failed to retrieve RPi IP address.\n" >&2
     exit 1
 fi
-
 sub_dirs=("" "right" "bottom")
 
 # Create directories on the remote host
