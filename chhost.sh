@@ -28,5 +28,6 @@ fi
 
 # Update the hostname entry in /etc/hosts
 if ! sudo sed -i "s/^127\.0\.1\.1\s.*/127.0.1.1\t${new_hostname}/" /etc/hosts; then
-    printf "Error: Failed to update /
-
+    printf "Error: Failed to update"
+    exit 1
+fi
