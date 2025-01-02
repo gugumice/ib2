@@ -16,6 +16,12 @@ source chhost.sh
 
 #printf "Setting media...\n"
 #./set_ib.sh
+apt-get update
+printf "Installing sshpass...\n"
+apt-get install sshpass -y
+printf "Installing git...\n"
+apt-get install git -y
+
 
 printf "Enable startup service...\n"
 systemctl enable firstboot.service
