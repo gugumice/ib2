@@ -14,8 +14,8 @@ ln -s /opt/ib/firstboot.service /lib/systemd/system/firstboot.service 2>/dev/nul
 printf "Setting hostname...\n"
 source chhost.sh
 
-printf "Setting media...\n"
-source set_ib.sh
+#printf "Setting media...\n"
+#./set_ib.sh
 
 printf "Enable startup service...\n"
 systemctl enable firstboot.service
