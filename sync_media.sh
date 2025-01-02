@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 export SSHPASS='avene'
 REMOTE_HOST='rapi-master'
 REMOTE_USER="pi"
@@ -14,10 +13,8 @@ if [[ -z "$network_id" ]]; then
     printf "Error: Failed to retrieve network ID.\n" >&2
     exit 1
 fi
-
 sources=("master" "${network_id}")
 sub_dirs=("")  # Specify additional subdirectories if needed
-
 # Function to merge playlists
 merge_playlist(){
     printf "Merging playlists to IB...\n"
@@ -28,7 +25,6 @@ merge_playlist(){
         return 1
     fi
 }
-
 # Function to sync directories
 sync_dir(){
     printf "\nSyncing main...\n"
@@ -38,7 +34,6 @@ sync_dir(){
             src_path="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/${src}${dir}/*.*"
             dst_path="${LOCAL_PATH}${dir}/"
             printf "Syncing %s -> %s\n" "${src_path}" "${dst_path}"
-            
             if ! sshpass -e rsync -av "${src_path}" "${dst_path}"; then
                 printf "Error: Sync failed for %s.\n" "${src_path}" >&2
                 return 1
@@ -46,7 +41,6 @@ sync_dir(){
         done
     done
 }
-
 # Main function to coordinate tasks
 main(){
     if ! merge_playlist; then

@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
 
 # Extract the current hostname and network identifier
 current_hostname=$(cat /proc/sys/kernel/hostname)
@@ -29,5 +28,4 @@ fi
 # Update the hostname entry in /etc/hosts
 if ! sudo sed -i "s/^127\.0\.1\.1\s.*/127.0.1.1\t${new_hostname}/" /etc/hosts; then
     printf "Error: Failed to update"
-    exit 1
 fi

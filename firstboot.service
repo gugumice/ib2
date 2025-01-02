@@ -1,0 +1,9 @@
+[Unit]
+Description=First time boot config script launcher
+After=network.target
+[Service]
+Type=simple
+ExecStart=/opt/ib/initib.sh
+User=root
+[Install]
+WantedBy=multi-user.target 

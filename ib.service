@@ -1,0 +1,14 @@
+[Unit]
+Description=InfoBeamer
+After=network-online.target
+
+[Service]
+ExecStart=/home/pi/iblaunch.sh
+WorkingDirectory=/srv/smb/green/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

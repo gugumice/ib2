@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+timedatectl set-timezone Europe/Riga
+
+printf "Disable wifi and bluetooth\n"
+sed -i '/^# Additional overlays.*/a dtoverlay=pi3-disable-wifi\ndtoverlay=pi3-disable-bt' /boot/config.txt
+
+printf "Setting hardlinks to services...\n" > &2
+ln /opt/ib/ib.service /lib/systemd/system/ib.service
+ln /opt/ib/firstboot.service /lib/systemd/system/firstboot.service
+#ln /opt/secondboot.service /lib/systemd/system/secondboot.service
+
+printf "Setting hostname...\n" > &2
+./chhost.sh
+
+printf "Setting media ...\n" > &2
+./set_ib.sh
+
+#Enable startup service
+printf "Enable startup service ...\n" > &2
+systemctl enable firstboot.service

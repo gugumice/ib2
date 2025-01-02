@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+export SSHPASS='avene'
 REMOTE_HOST='rapi-master'
 REMOTE_USER="pi"
 REMOTE_PATH="/srv/smb/tv/"

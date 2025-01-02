@@ -77,6 +77,10 @@ main(){
         printf "Local setup failed. Exiting.\n" >&2
         exit 1
     fi
+    #Set crontab enteries
+    echo "@reboot sleep 10 && /opt/ib/sync_media.sh > /home/pi/st_media.log 2>&1 && /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1\n"  >>  /var/spool/cron/crontabs/root
+    echo "*/10 * * * * /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1\n" >> /var/spool/cron/crontabs/root
+    echo "00 05 * * * reboot" >> /var/spool/cron/crontabs/root
 }
 
 main "$@"
