@@ -83,7 +83,7 @@ main(){
     echo "*/10 * * * * /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1\n" >> /var/spool/cron/crontabs/root
     echo "00 05 * * * reboot" >> /var/spool/cron/crontabs/root
     printf "Setting hostname...\n"
-    ./chhost.sh
+    /opt/ib/chhost.sh
 }
 
 main "$@"
