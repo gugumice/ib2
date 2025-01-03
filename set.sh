@@ -16,8 +16,6 @@ ln -s /opt/ib/firstboot.service /lib/systemd/system/firstboot.service 2>/dev/nul
 apt-get update
 printf "Installing sshpass...\n"
 apt-get install sshpass -y
-printf "Installing git...\n"
-apt-get install git -y
 
 printf "Enable startup service...\n"
 systemctl enable firstboot.service
