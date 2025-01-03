@@ -79,8 +79,8 @@ main(){
     fi
     chmod -R a-x,u=rwX,go=rX "${LOCAL_PATH}"
     #Set crontab enteries
-    echo "@reboot sleep 10 && /opt/ib/sync_media.sh > /home/pi/st_media.log 2>&1 && /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1\n"  >>  /var/spool/cron/crontabs/root
-    echo "*/10 * * * * /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1\n" >> /var/spool/cron/crontabs/root
+    echo "@reboot sleep 10 && /opt/ib/sync_media.sh > /home/pi/st_media.log 2>&1 && /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1"  >>  /var/spool/cron/crontabs/root
+    echo "*/10 * * * * /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1" >> /var/spool/cron/crontabs/root
     echo "00 05 * * * reboot" >> /var/spool/cron/crontabs/root
     printf "Setting hostname...\n"
     /opt/ib/chhost.sh
