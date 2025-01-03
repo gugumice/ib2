@@ -1,6 +1,8 @@
 [Unit]
 Description=First time boot config script launcher
-After=network-online.target
+Wants=network-online.target
+After=network-online.target nss-lookup.target
+
 [Service]
 Type=simple
 ExecStart=/opt/ib/initib.sh
