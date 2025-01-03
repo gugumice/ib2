@@ -2,7 +2,7 @@
 
 raspi-config --expand-rootfs > /dev/null
 set -e
-./opt/ib/set_ib.sh
+/opt/ib/set_ib.sh
 systemctl enable ib.service
 systemctl disable firstboot.service
 
