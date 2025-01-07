@@ -37,6 +37,15 @@ main() {
     # Define source and destination paths
     local src dst
 
+    # Sync master and local playlists
+    printf "Syncing master and local playlists\n"
+    if ! sshpass -e ssh -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_HOST}" \
+        "cat ${REMOTE_PATH}${NETWORK_ID}/playlist.local > ${REMOTE_PATH}${NETWORK_ID}/playlist.txt && \
+         cat ${REMOTE_PATH}master/playlist.tmpl >> ${REMOTE_PATH}${NETWORK_ID}/playlist.txt"; then
+        printf "Failed to sync playlists.\n" >&2
+        return 1
+    fi
+
     # Working hours in the right panel
     src="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}${NETWORK_ID}/right/*.txt"
     dst="${LOCAL_PATH}right/"
@@ -52,14 +61,10 @@ main() {
     dst="${LOCAL_PATH}bottom/"
     copy_from_server "$src" "$dst"
 
-    # Sync master and local playlists
-    printf "Syncing master and local playlists\n"
-    if ! sshpass -e ssh -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_HOST}" \
-        "cat ${REMOTE_PATH}${NETWORK_ID}/playlist.local > ${REMOTE_PATH}${NETWORK_ID}/playlist.txt && \
-         cat ${REMOTE_PATH}master/playlist.tmpl >> ${REMOTE_PATH}${NETWORK_ID}/playlist.txt"; then
-        printf "Failed to sync playlists.\n" >&2
-        return 1
-    fi
+    # Playlist to local
+    src="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}${NETWORK_ID}/playlist.txt"
+    dst="${LOCAL_PATH}"
+    copy_from_server "$src" "$dst"
 
     # Handle file descriptors safely
     local file1="/srv/smb/green/bottom/node.lua"
