@@ -1,7 +1,8 @@
 [Unit]
 Description=First time boot config script launcher
 Wants=network-online.target
-After=network-online.target nss-lookup.target
+After=network-online.target 
+#nss-lookup.target
 
 [Service]
 Type=simple
