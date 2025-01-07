@@ -9,6 +9,12 @@ LOCAL_USER="pi"
 LOCAL_GROUP="ib"
 
 date_time=$(date +"%Y-%m-%d %H.%M.%S")
+####v
+if ! test -f /opt/ib/not_expanded; then
+  echo "File exists."
+fi
+
+
 network_id=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1 | cut -d. -f2)
 if [[ -z "$network_id" ]]; then
     printf "Error: Failed to retrieve network ID.\n" >&2
