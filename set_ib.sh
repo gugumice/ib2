@@ -2,30 +2,14 @@
 
 export SSHPASS='avene'
 REMOTE_HOST='rapi-master'
-REMOTE_USER="pi"
-REMOTE_PATH="/srv/smb/tv"
-LOCAL_PATH="/srv/smb/green"
-LOCAL_USER="pi"
-LOCAL_GROUP="ib"
+REMOTE_USER='pi'
+REMOTE_PATH='/srv/smb/tv'
+LOCAL_PATH='/srv/smb/green'
+LOCAL_USER='pi'
+LOCAL_GROUP='ib'
+DEF_HOSTNAME='rapi-ib11'
 
 date_time=$(date +"%Y-%m-%d %H.%M.%S")
-####v
-if ! test -f /opt/ib/not_expanded; then
-  echo "File exists."
-fi
-
-
-network_id=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1 | cut -d. -f2)
-if [[ -z "$network_id" ]]; then
-    printf "Error: Failed to retrieve network ID.\n" >&2
-    exit 1
-fi
-
-rpi_ip=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1)
-if [[ -z "$rpi_ip" ]]; then
-    printf "Error: Failed to retrieve RPi IP address.\n" >&2
-    exit 1
-fi
 sub_dirs=("" "right" "bottom")
 
 # Create directories on the remote host
@@ -38,7 +22,6 @@ set_remote (){
             return 1
         fi
     done
-    
     if ! sshpass -e ssh -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_HOST}" \
         "echo '${rpi_ip} ${date_time}' > '${REMOTE_PATH}/${network_id}/ip_address.txt' && \
         touch '${REMOTE_PATH}/${network_id}/playlist.local' && \
@@ -63,31 +46,38 @@ set_local (){
             return 1
         fi
     done
-    
     if ! chown -R "${LOCAL_USER}:${LOCAL_GROUP}" "${LOCAL_PATH}" || ! chmod -R 775 "${LOCAL_PATH}"; then
         printf "Error: Failed to set permissions on %s\n" "${LOCAL_PATH}" >&2
         return 1
     fi
 }
-
+check_hostname() {
+    #Check if default hostname
+    if [[ "$hostname" == ${DEF_HOSTNAME} ]]; then
+        printf "Setting hostname...\n"
+        sh ./set_hostname.sh
+        printf "Rebooting...\n"
+        sudo reboot
+    fi
+}
 # Main function to coordinate tasks
 main(){
     printf "Starting setup at %s, network ID: %s, IP: %s\n" "${date_time}" "${network_id}" "${rpi_ip}"
-    
+    printf "Setting dirs on server\n"
     if ! set_remote; then
         printf "Remote setup failed. Exiting.\n" >&2
         exit 1
     fi
-    
+    printf "Setting dirs locally\n"
     if ! set_local; then
         printf "Local setup failed. Exiting.\n" >&2
         exit 1
     fi
-    chmod -R a-x,u=rwX,go=rX "${LOCAL_PATH}"
     #Set crontab enteries
-    /opt/ib/set_cron.sh
+    printf "Setting crontab enteries\n locally\n"
+    sh ./set_cron.sh
     printf "Setting hostname...\n"
-    /opt/ib/chhost.sh
+    sh ./set_hostname.sh
 }
 
 main "$@"
