@@ -54,7 +54,8 @@ set_local (){
 check_hostname() {
     #Check if default hostname
     if [[ "$hostname" == ${DEF_HOSTNAME} ]]; then
-        printf "Setting hostname...\n"
+        printf "Setting hostname, expand fs...\n"
+        raspi-config --expand-rootfs > /dev/null
         sh ./set_hostname.sh
         printf "Rebooting...\n"
         sudo reboot
