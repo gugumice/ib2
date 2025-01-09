@@ -8,6 +8,7 @@ LOCAL_PATH='/srv/smb/green'
 LOCAL_USER='pi'
 LOCAL_GROUP='ib'
 DEF_HOSTNAME='rapi-ib11'
+HOME_DIR='/opt/ib' 
 
 date_time=$(date +"%Y-%m-%d %H.%M.%S")
 sub_dirs=("" "right" "bottom")
@@ -63,6 +64,7 @@ check_hostname() {
 }
 # Main function to coordinate tasks
 main(){
+    
     printf "Starting setup at %s, network ID: %s, IP: %s\n" "${date_time}" "${network_id}" "${rpi_ip}"
     printf "Setting dirs on server\n"
     if ! set_remote; then
@@ -76,9 +78,9 @@ main(){
     fi
     #Set crontab enteries
     printf "Setting crontab enteries\n locally\n"
-    sh ./set_cron.sh
+    "${HOME_DIR}/set_cron.sh"
     printf "Setting hostname...\n"
-    sh ./set_hostname.sh
+    "${HOME_DIR}/set_hostname.sh"
 }
 
 main "$@"
