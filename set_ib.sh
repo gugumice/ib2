@@ -43,7 +43,6 @@ set_local (){
     for dir in "${sub_dirs[@]}"; do
         l_path="${LOCAL_PATH}/${dir}"
         mkdir -p "${l_path}"
-        
         printf "Syncing %s -> %s\n" "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/master/${dir}/*.*" "${l_path}"
         if ! sshpass -e rsync -av "${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/master/${dir}/*.*" "${l_path}"; then
             printf "Error: Sync failed for directory %s.\n" "${dir}" >&2
@@ -81,7 +80,7 @@ main(){
     fi
     #Set crontab enteries
     printf "Setting crontab enteries\n locally\n"
-    "${HOME_DIR}/set_cron.sh"
+    "${HOME_DIR}/set_cronjobs.sh"
     printf "Setting hostname...\n"
     "${HOME_DIR}/set_hostname.sh"
 }
