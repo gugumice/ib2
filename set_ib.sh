@@ -12,10 +12,12 @@ HOME_DIR='/opt/ib'
 
 date_time=$(date +"%Y-%m-%d %H.%M.%S")
 sub_dirs=("" "right" "bottom")
+current_hostname=$(cat /proc/sys/kernel/hostname)
 
 # Create directories on the remote host
 set_remote (){
-    local dir dest_path
+    local dir dest_path network_id
+    network_id=$(ip -o -4 addr list eth0 | awk '{print $4}' | cut -d/ -f1 | cut -d. -f2)
     for dir in "${sub_dirs[@]}"; do
         dest_path="${REMOTE_PATH}/${network_id}/${dir}/"
         if ! sshpass -e ssh -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_HOST}" "mkdir -p '${dest_path}'"; then
@@ -25,7 +27,7 @@ set_remote (){
     done
     if ! sshpass -e ssh -o StrictHostKeyChecking=no "${REMOTE_USER}@${REMOTE_HOST}" \
         "echo '${rpi_ip} ${date_time}' > '${REMOTE_PATH}/${network_id}/ip_address.txt' && \
-        touch '${REMOTE_PATH}/${network_id}/playlist.local' && \
+        touch '${REMOTE_PATH}/${network_id}/playlist.local' && \    
         cp '${REMOTE_PATH}/master/playlist.tmpl' '${REMOTE_PATH}/${network_id}/playlist.txt' && \
         cp '${REMOTE_PATH}/master/right/'*.txt '${REMOTE_PATH}/${network_id}/right/' && \
         cp '${REMOTE_PATH}/master/bottom/'*.txt '${REMOTE_PATH}/${network_id}/bottom/'"; then
@@ -33,7 +35,8 @@ set_remote (){
         return 1
     fi
 }
-
+#chmod -R ug=rwX,o=rX green/
+#https://stackoverflow.com/questions/17091300/linux-set-permission-only-to-directories
 # Create local directories and synchronize content
 set_local (){
     local dir l_path
@@ -47,7 +50,7 @@ set_local (){
             return 1
         fi
     done
-    if ! chown -R "${LOCAL_USER}:${LOCAL_GROUP}" "${LOCAL_PATH}" || ! chmod -R 775 "${LOCAL_PATH}"; then
+    if ! chown -R "${LOCAL_USER}:${LOCAL_GROUP}" "${LOCAL_PATH}" || ! chmod -R ug=rwX,o=rX "${LOCAL_PATH}"; then
         printf "Error: Failed to set permissions on %s\n" "${LOCAL_PATH}" >&2
         return 1
     fi
