@@ -3,7 +3,7 @@
 TARGET='crontab.update'
 # Save current crontab configuraton
 #crontab -l | tee "$TARGET"
-#Add crontab enteries
+#Add snteries
 echo '@reboot sleep 10 && /opt/"ib/sync_media.sh > /home/pi/st_media.log 2>&1 && /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1' > "$TARGET"
 echo '*/10 * * * * /opt/ib/sync_news.sh > /home/pi/st_news.log 2>&1' >> "$TARGET"
 echo '00 05 * * * reboot' >> "$TARGET"
