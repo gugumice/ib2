@@ -66,7 +66,6 @@ check_hostname() {
 }
 # Main function to coordinate tasks
 main(){
-    
     printf "Starting setup at %s, network ID: %s, IP: %s\n" "${date_time}" "${network_id}" "${rpi_ip}"
     printf "Setting dirs on server\n"
     if ! set_remote; then
@@ -86,6 +85,8 @@ main(){
     "${HOME_DIR}/set_cronjobs.sh"
     printf "Setting hostname...\n"
     "${HOME_DIR}/set_hostname.sh"
+    sleep 5
+    printf "Rebooting...\n"
+    sudo reboot
 }
-
 main "$@"
