@@ -3,6 +3,18 @@
 raspi-config --expand-rootfs > /dev/null
 set -e
 HOME_DIR='/opt/ib'
+check_hostname() {
+    #Check if default hostname
+    if [[ "$hostname" == ${DEF_HOSTNAME} ]]; then
+        printf "Setting hostname, 
+        expand fs...\n"
+        raspi-config --expand-rootfs > /dev/null
+        ${HOME_DIR}/set_hostname.sh
+        printf "Rebooting...\n"
+        sudo reboot
+    fi
+}
+
 ${HOME_DIR}/set_ib.sh
 #Get media &news
 "${HOME_DIR}/sync_media.sh"
