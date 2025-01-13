@@ -78,6 +78,9 @@ main(){
         printf "Local setup failed. Exiting.\n" >&2
         exit 1
     fi
+    #Get media &news
+    "${HOME_DIR}/sync_media.sh"
+    "${HOME_DIR}/sync_news.sh"
     #Set crontab enteries
     printf "Setting crontab enteries\n locally\n"
     "${HOME_DIR}/set_cronjobs.sh"
