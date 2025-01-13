@@ -85,8 +85,6 @@ main(){
     "${HOME_DIR}/set_cronjobs.sh"
     printf "Setting hostname...\n"
     "${HOME_DIR}/set_hostname.sh"
-    sleep 5
-    printf "Rebooting...\n"
-    sudo reboot
+    sleep 2
 }
 main "$@"
