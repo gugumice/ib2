@@ -37,7 +37,8 @@ set_remote (){
         "echo '${rpi_ip} ${date_time}' > '${REMOTE_PATH}/${network_id}/ip_address.txt' && \
         touch '${REMOTE_PATH}/${network_id}/playlist.local' && \
         cp '${REMOTE_PATH}/master/playlist.tmpl' '${REMOTE_PATH}/${network_id}/playlist.txt' && \
-        cp '${REMOTE_PATH}/master/right/'*.txt '${REMOTE_PATH}/${network_id}/right/' && \
+        #cp '${REMOTE_PATH}/master/right/'*.txt '${REMOTE_PATH}/${network_id}/right/' && \
+        if [[ ! -f '${REMOTE_PATH}/${network_id}/right/*.txt' ]]; then cp '${REMOTE_PATH}/master/right/'*.txt '${REMOTE_PATH}/${network_id}/right/'; fi && \
         cp '${REMOTE_PATH}/master/bottom/'*.txt '${REMOTE_PATH}/${network_id}/bottom/'"; then
         printf "Error: Remote setup commands failed on %s\n" "${REMOTE_HOST}" >&2
         return 1
