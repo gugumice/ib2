@@ -31,7 +31,7 @@ sync_dir(){
     local src dir src_path dst_path;
     for src in "${sources[@]}"; do
         for dir in "${sub_dirs[@]}"; do
-            src_path="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}/${src}${dir}/*.*";
+            src_path="${REMOTE_USER}@${REMOTpT}:${REMOTE_PATH}/${src}${dir}/*.*";
             dst_path="${LOCAL_PATH}${dir}/";
             printf "Syncing %s -> %s\n" "${src_path}" "${dst_path}";
             if ! sshpass -e rsync -av "${src_path}" "${dst_path}"; then
