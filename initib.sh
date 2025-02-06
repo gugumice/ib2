@@ -18,14 +18,15 @@ check_hostname() {
     fi
 }
 main(){
-    ${HOME_DIR}/set_hostname;
-    ${HOME_DIR}/set_ib.sh;
+    "${HOME_DIR}/set_hostname";
+    "${HOME_DIR}/set_ib.sh";
+    printf "Setting crontab enteries\n locally\n";
+    "${HOME_DIR}/set_cronjobs.sh";
     #Get media &news
     #"${HOME_DIR}/sync_media.sh";
     "${HOME_DIR}/sync_news.sh";
     #Set crontab enteries
-    printf "Setting crontab enteries\n locally\n";
-    "${HOME_DIR}/set_cronjobs.sh";
+    
     sleep 2;
     printf "Setting cronjobs\n";
     systemctl enable ib.service;
