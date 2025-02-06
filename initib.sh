@@ -18,10 +18,10 @@ check_hostname() {
     fi
 }
 main(){
-    check_hostname;
+    ${HOME_DIR}/set_hostname;
     ${HOME_DIR}/set_ib.sh;
     #Get media &news
-    "${HOME_DIR}/sync_media.sh";
+    #"${HOME_DIR}/sync_media.sh";
     "${HOME_DIR}/sync_news.sh";
     #Set crontab enteries
     printf "Setting crontab enteries\n locally\n";
