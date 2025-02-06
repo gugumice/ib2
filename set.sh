@@ -18,7 +18,9 @@ apt-get install sshpass -y;
 printf "Enable startup service...\n";
 systemctl enable firstboot.service;
 
-printf "Creating local directories...\n";
-./opt/ib/set_local.sh;
+printf "Creating local storage...\n";
+if ! /opt/ib/set_local.sh; then
+    printf "Error creating local storage...\n";
+fi
 
 
