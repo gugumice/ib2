@@ -18,17 +18,26 @@ check_hostname() {
     fi
 }
 main(){
-    "${HOME_DIR}/set_hostname";
-    "${HOME_DIR}/set_ib.sh";
+    if ! "${HOME_DIR}/set_hostname"; then
+        printf "Error setting hostname\n";
+    fi
+    if ! "${HOME_DIR}/set_ib.sh"; then
+        printf "Error setting remote storage\n";
+    fi;
     printf "Setting crontab enteries\n locally\n";
-    "${HOME_DIR}/set_cronjobs.sh";
+    if ! "${HOME_DIR}/set_cronjobs.sh"; then
+        printf "Error setting crontab\n";
+    fi;
     #Get media &news
     #"${HOME_DIR}/sync_media.sh";
-    "${HOME_DIR}/sync_news.sh";
+    if ! "${HOME_DIR}/sync_news.sh"; then
+        printf "Error setting syncing news\n";
+    fi;
     #Set crontab enteries
-    
-    sleep 2;
-    printf "Setting cronjobs\n";
+    sleep 1;
+    if ! "${HOME_DIR}/set_cronjobs.sh"; then
+        printf "Error setting cron jobs\n";
+    fi;
     systemctl enable ib.service;
     systemctl disable firstboot.service;
 }
