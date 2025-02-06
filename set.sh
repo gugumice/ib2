@@ -12,7 +12,7 @@ ln -s /opt/ib/ib.service /lib/systemd/system/ib.service 2>/dev/null;
 ln -s /opt/ib/firstboot.service /lib/systemd/system/firstboot.service 2>/dev/null;
 
 printf "Installing sshpass...\n";
-apt-get update;
+apt-get update && apt-get upgrade -y;
 apt-get install sshpass -y;
 
 printf "Enable startup service...\n";
@@ -21,6 +21,6 @@ systemctl enable firstboot.service;
 printf "Creating local storage...\n";
 if ! /opt/ib/set_local.sh; then
     printf "Error creating local storage...\n";
-fi
+fi;
 
 
